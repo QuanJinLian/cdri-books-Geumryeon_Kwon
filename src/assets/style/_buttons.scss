@@ -1,0 +1,51 @@
+button {
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  background-color: unset;
+  cursor: pointer;
+
+  &:hover {
+    filter: brightness(1.2);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.8;
+    &:hover {
+      filter: unset;
+    }
+  }
+}
+.primary-button {
+  --fontSize: 14px;
+  background-color: var(--primary);
+  color: var(--white);
+  font-size: var(--fontSize);
+}
+
+.transparent-button {
+  --fontSize: 14px;
+  color: var(--text-primary);
+  border: 1px solid var(--text-primary);
+  font-size: var(--fontSize);
+
+  &:hover {
+    filter: brightness(3);
+  }
+}
+
+.icon-button {
+  --size: 16px;
+  width: var(--size);
+  height: var(--size);
+  padding: 4px;
+
+  &.close {
+    background: center / contain no-repeat url(../image/close.svg);
+  }
+
+  &.close-gray {
+    background: center / contain no-repeat url(../image/close-gray.svg);
+  }
+}
