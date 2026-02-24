@@ -1,0 +1,46 @@
+//기본 셋팅
+.hint-item-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  font-size: 16px;
+  padding: 5px;
+
+  button {
+    cursor: pointer;
+  }
+}
+
+.search-input-container {
+  padding: 10px;
+
+  .input-container {
+    display: flex;
+    img {
+      width: var(--imgSize);
+      height: var(--imgSize);
+    }
+    input {
+      padding: 5px;
+      font-size: 16px;
+      flex: 1;
+      border: none;
+    }
+  }
+
+  .content-container:has(div) {
+    margin-left: var(--imgSize);
+    margin-top: 10px;
+  }
+}
+
+// 프로젝트 맞춘 셋팅
+.hint-item-container {
+  button {
+    width: 16px;
+    height: 16px;
+    border: none;
+    background: center / contain no-repeat url("/src/assets/image/close.svg");
+  }
+}
