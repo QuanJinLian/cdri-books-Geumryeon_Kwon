@@ -24,3 +24,21 @@
     margin-left: 5px;
   }
 }
+
+.search-section-container {
+  display: flex;
+  align-items: center;
+  .search-book-input-container {
+    width: 480px;
+    background-color: var(--light-gray);
+    border-radius: 24px;
+  }
+
+  > *:nth-of-type(n + 1) {
+    margin-left: 10px;
+  }
+
+  button {
+    height: var(--itemSizeHeigth);
+  }
+}
