@@ -4,6 +4,8 @@
 
 :root {
   --primary: #4880ee;
+  --primaryOpacity30: rgba(72, 128, 238, 0.3);
+  --primaryOpacity50: rgba(72, 128, 238, 0.5);
   --red: #e84118;
   --gray: #dadada;
   --light-gray: #f2f4f6;
@@ -13,6 +15,8 @@
   --text-primary: #353c49;
   --text-secondary: #6d7582;
   --text-subtitle: #8d94a0;
+
+  --itemSizeHeigth: 36px;
 }
 
 body {
