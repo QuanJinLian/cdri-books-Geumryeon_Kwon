@@ -1,0 +1,43 @@
+div.MuiTabs-list {
+  .MuiButtonBase-root {
+    color: var(--text-primary);
+  }
+}
+
+li.MuiMenuItem-root {
+  color: var(--text-subtitle);
+  .Mui-selected {
+    background-color: var(--primaryOpacity30);
+  }
+}
+
+.MuiSelect-select.MuiSelect-outlined {
+  padding: 6px 32px 7px 6px;
+}
+
+.MuiFormLabel-root.MuiInputLabel-root {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--black);
+  top: unset;
+  bottom: 24px;
+  &.Mui-focused {
+    color: var(--primary);
+  }
+}
+
+.MuiInputBase-root {
+  &.MuiOutlinedInput-root {
+    &.Mui-focused {
+      .MuiOutlinedInput-notchedOutline {
+        border-color: var(--primary);
+      }
+    }
+  }
+
+  .MuiOutlinedInput-notchedOutline {
+    border: none;
+    border-radius: unset;
+    border-bottom: 1px solid var(--gray);
+  }
+}

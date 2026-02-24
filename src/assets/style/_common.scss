@@ -1,43 +1,26 @@
-div.MuiTabs-list {
-  .MuiButtonBase-root {
-    color: var(--text-primary);
+.cdri-input {
+  border: none;
+  border-bottom: 1px solid var(--gray);
+
+  &:focus {
+    border-color: var(--primary);
   }
 }
 
-li.MuiMenuItem-root {
-  color: var(--text-subtitle);
-  .Mui-selected {
-    background-color: var(--primaryOpacity30);
+.detail-search-container {
+  display: flex;
+  flex-direction: column;
+
+  button {
+    margin-top: 20px;
   }
+  margin-bottom: 10px;
 }
+.input-container {
+  display: flex;
 
-.MuiSelect-select.MuiSelect-outlined {
-  padding: 6px 32px 7px 6px;
-}
-
-.MuiFormLabel-root.MuiInputLabel-root {
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--black);
-  top: unset;
-  bottom: 24px;
-  &.Mui-focused {
-    color: var(--primary);
-  }
-}
-
-.MuiInputBase-root {
-  &.MuiOutlinedInput-root {
-    &.Mui-focused {
-      .MuiOutlinedInput-notchedOutline {
-        border-color: var(--primary);
-      }
-    }
-  }
-
-  .MuiOutlinedInput-notchedOutline {
-    border: none;
-    border-radius: unset;
-    border-bottom: 1px solid var(--gray);
+  input {
+    flex: 1;
+    margin-left: 5px;
   }
 }

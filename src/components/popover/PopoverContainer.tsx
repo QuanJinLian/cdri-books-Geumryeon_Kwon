@@ -7,6 +7,7 @@ type Props = {
   children?: ReactNode;
   onClose?: ReturnType<typeof usePopover>["handleClose"];
   hideCloseButton?: boolean;
+  typographyProps?: Parameters<typeof Typography>[0];
 };
 
 export function PopoverContainer({
@@ -14,9 +15,13 @@ export function PopoverContainer({
   children,
   onClose,
   hideCloseButton,
+  typographyProps,
 }: Props) {
   return (
-    <Typography className={`popover-container ${className}`}>
+    <Typography
+      {...typographyProps}
+      className={`popover-container ${className || ""} ${typographyProps?.className || ""}`}
+    >
       {!hideCloseButton && (
         <div className="button-container">
           <button
