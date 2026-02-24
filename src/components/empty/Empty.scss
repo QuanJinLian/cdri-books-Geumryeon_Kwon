@@ -1,0 +1,33 @@
+// 기본 설정
+.empty-container {
+  --size: 80px;
+  --color: #000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+
+  img {
+    width: var(--size);
+    height: var(--size);
+  }
+
+  .text-container {
+    font-size: 16px;
+    margin-top: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--color);
+  }
+}
+
+// 프로젝트 맞춤 설정
+.empty-container {
+  .text-container {
+    --color: var(--text-secondary);
+  }
+}
