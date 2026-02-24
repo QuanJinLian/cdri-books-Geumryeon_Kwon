@@ -7,7 +7,7 @@ type BookCardItemProps = {
   title: string;
   author: string[];
   prices: number[]; //가격
-  content: string;
+  content?: string;
 };
 
 export function BookCardItem({
@@ -44,8 +44,10 @@ export function BookCardItem({
             <img src="/src/assets/image/arrow-down.svg" alt="arrow-down" />
           </button>
         </div>
-        {isOpen && (
-          <div className="content-body">
+
+        {/* 상세 컨텐트 */}
+        <div className="content-body">
+          <div className="content-body-wrapper">
             <div className="content-body-left">
               <h2>책 소개</h2>
               <p>{content}</p>
@@ -66,7 +68,7 @@ export function BookCardItem({
               <button className="primary-button buy-button">구매하기</button>
             </div>
           </div>
-        )}
+        </div>
       </div>
     </div>
   );

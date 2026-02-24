@@ -22,7 +22,7 @@
     img {
       object-fit: cover;
       width: 48px;
-      transition: all 0.5s ease-out;
+      transition: all 0.3s;
     }
   }
 
@@ -67,10 +67,11 @@
   }
 
   .content-body {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px 0;
+    padding: 0;
     flex: 1;
+    max-height: 0;
+    transition: all 0.3s;
+    overflow: hidden;
 
     &-left {
       width: 360px;
@@ -90,6 +91,14 @@
       align-items: flex-end;
       justify-content: flex-end;
     }
+
+    &-wrapper {
+      height: 100%;
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+    }
+
     .buy-button {
       width: 240px;
       margin-top: 20px;
@@ -103,6 +112,10 @@
 
   // 상세히 보기
   &.detail-open {
+    .content-body {
+      max-height: 50vh;
+    }
+
     .img-container {
       padding: 0 32px;
       img {
