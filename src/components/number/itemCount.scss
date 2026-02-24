@@ -1,0 +1,58 @@
+// 기본 셋팅
+.item-count-container {
+  display: flex;
+
+  .title {
+    margin-right: 15px;
+  }
+
+  .prefix {
+    margin-right: 3px;
+  }
+
+  .count-container {
+    display: flex;
+    align-items: center;
+  }
+}
+
+// 프로젝트 맞춘 셋팅
+
+.item-count-container {
+  font-size: 16px;
+  &.result {
+    .count {
+      color: var(--primary);
+    }
+  }
+  &.price {
+    justify-content: flex-end;
+    .prefix {
+      color: var(--text-subtile);
+      font-size: 10px;
+      margin-right: 10px;
+    }
+    .count-suffix-group {
+      font-weight: 700;
+    }
+  }
+
+  &.strikethrough {
+    .count-suffix-group {
+      position: relative;
+      display: inline-block;
+      font-weight: unset;
+
+      &::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 45%;
+        width: 100%;
+        height: 1px;
+        background-color: var(--black);
+        pointer-events: none;
+      }
+    }
+  }
+}
