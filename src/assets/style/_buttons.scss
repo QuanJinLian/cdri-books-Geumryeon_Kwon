@@ -6,6 +6,9 @@ button {
   background-color: unset;
   cursor: pointer;
   height: var(--height);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   &:hover {
     filter: brightness(1.2);
@@ -18,12 +21,28 @@ button {
       filter: unset;
     }
   }
+
+  > img {
+    --size: 14px;
+    width: var(--size);
+    height: var(--size);
+  }
 }
 .primary-button {
   --fontSize: 14px;
   background-color: var(--primary);
   color: var(--white);
   font-size: var(--fontSize);
+}
+
+.gray-button {
+  --fontSize: 14px;
+  background-color: var(--light-gray);
+  color: var(--text-secondary);
+
+  &:hover {
+    filter: brightness(0.9);
+  }
 }
 
 .transparent-button {

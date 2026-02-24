@@ -1,0 +1,122 @@
+.book-title-container {
+  display: flex;
+  align-items: center;
+  .title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-primary);
+  }
+  .subTitle {
+    font-size: 14px;
+    color: var(--text-subtitle);
+  }
+}
+
+.book-card-item-container {
+  display: flex;
+  padding: 16px;
+  border-bottom: 1px solid var(--gray);
+
+  .img-container {
+    padding: 0 32px;
+    img {
+      object-fit: cover;
+      width: 48px;
+      transition: all 0.5s ease-out;
+    }
+  }
+
+  .content-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .content-header {
+    display: flex;
+
+    > *:nth-of-type(n + 2) {
+      margin-left: 10px;
+    }
+
+    .item-count-container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-right: 32px;
+    }
+
+    .count-container {
+      font-size: 18px;
+      font-weight: 700;
+      min-width: 100px;
+      justify-content: flex-end;
+    }
+
+    button {
+      width: 115px;
+    }
+
+    .detail-button {
+      img {
+        margin-left: 5px;
+        transition: all 0.5s ease-out;
+      }
+    }
+  }
+
+  .content-body {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    flex: 1;
+
+    &-left {
+      width: 360px;
+      height: 100%;
+
+      p {
+        margin-top: 10px;
+        font-size: 10px;
+        line-height: 16px;
+      }
+    }
+    &-right {
+      height: 100%;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      justify-content: flex-end;
+    }
+    .buy-button {
+      width: 240px;
+      margin-top: 20px;
+    }
+    .price-container {
+      *:nth-of-type(n + 2) {
+        margin-top: 10px;
+      }
+    }
+  }
+
+  // 상세히 보기
+  &.detail-open {
+    .img-container {
+      padding: 0 32px;
+      img {
+        width: 210px;
+      }
+    }
+
+    .content-header .count-container,
+    .content-header .buy-button {
+      display: none;
+    }
+
+    .detail-button img {
+      transform: rotate(-180deg);
+    }
+  }
+}
