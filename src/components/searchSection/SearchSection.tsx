@@ -8,25 +8,44 @@ import {
   usePopover,
 } from "@/components";
 import { popoverSettings } from "@/defines";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { Popover } from "@mui/material";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 
-export function SearchSection() {
+type FormValues = {
+  search: string;
+  category: string;
+  detailSearch: string;
+};
+
+type SearchSectionProps = {
+  onSubmit: SubmitHandler<FormValues>;
+};
+
+export function SearchSection({ onSubmit }: SearchSectionProps) {
   const { handleClick, handleClose, popoverControl } = usePopover({
     id: "detail-search",
     popoverProps: popoverSettings.bottomCenter,
   });
-  const formControl = useForm();
-  const { register, setValue, watch } = formControl;
+  const formControl = useForm<FormValues>();
+  const { register, setValue, watch, getValues, handleSubmit } = formControl;
 
   // hint 관련 로직
   const { hints, addHint, removeHint } = useHints({ hintKey: "search-hint" });
-  const hintItemClick: typeof addHint = (e, data) => {
-    addHint(e, data);
 
-    // 검색 query 로직
+  const _onSubmit = (values: FormValues) => {
+    const search = values.search || values.detailSearch;
+
+    addHint({} as any, { id: search, label: search });
+    onSubmit(values);
   };
+
+  const hintItemClick: typeof addHint = (e, data) => {
+    // 검색 query 로직
+    setValue("search", data.label);
+    _onSubmit(getValues());
+  };
+
   const hintsProps = useMemo(
     () =>
       hints?.map(
@@ -42,6 +61,20 @@ export function SearchSection() {
     [hints],
   );
 
+  // input 끼리 연관 로직
+  const { search, detailSearch, category } = watch();
+  useEffect(() => {
+    if (search && (detailSearch || category)) {
+      setValue("category", "");
+      setValue("detailSearch", "");
+    }
+  }, [search]);
+  useEffect(() => {
+    if (search && (detailSearch || category)) {
+      setValue("search", "");
+    }
+  }, [detailSearch, category]);
+
   return (
     <div className="search-section-container">
       <div className="search-book-input-container">
@@ -52,6 +85,7 @@ export function SearchSection() {
           }}
           formControl={formControl}
           hints={hintsProps}
+          onSubmit={_onSubmit}
         />
       </div>
       <button className="transparent-button" onClick={handleClick}>
@@ -62,15 +96,17 @@ export function SearchSection() {
           onClose={handleClose}
           typographyProps={{ sx: { width: 360 } }}
         >
-          <form className="detail-search-container">
+          <form
+            className="detail-search-container"
+            onSubmit={handleSubmit(_onSubmit)}
+          >
             <div className="input-container">
               <CDRISelect
                 items={items}
                 inputLabel="제목"
                 selectProps={{
-                  multiple: true,
                   onChange: (e, values) => {
-                    console.log("sss", e, values);
+                    setValue("category", values?.current?.[0]);
                   },
                 }}
                 formControlProps={{ sx: { width: 150 } }}

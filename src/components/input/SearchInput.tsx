@@ -2,10 +2,15 @@ import { CSSProperties, InputHTMLAttributes, useMemo, useRef } from "react";
 import { HintItem, HintItemProps, usePopover } from "@/components";
 import { popoverSettings } from "@/defines";
 import { Popover } from "@mui/material";
-import { UseFormReturn } from "react-hook-form";
+import {
+  FieldValues,
+  Path,
+  SubmitHandler,
+  UseFormReturn,
+} from "react-hook-form";
 import { useClickOutSide } from "@/hooks";
 
-type Props = {
+type Props<T extends FieldValues> = {
   className?: string;
   icon?: {
     imageSrc?: string;
@@ -13,24 +18,28 @@ type Props = {
     hidden?: boolean;
     size?: string;
   };
-  input: InputHTMLAttributes<HTMLInputElement>;
-  formControl: UseFormReturn;
+  input: Omit<InputHTMLAttributes<HTMLInputElement>, "name"> & {
+    name: Path<T>;
+  };
+  formControl: UseFormReturn<T>;
   hints?: HintItemProps[];
   hideHint?: boolean;
+  onSubmit: SubmitHandler<T>;
 };
 
 const emptyHint: HintItemProps[] = [
   { id: "empty", label: "검색 기록이 없습니다." },
 ];
 
-export function SearchInput({
+export function SearchInput<T extends FieldValues>({
   className = "",
   icon,
   input,
   formControl,
   hints,
   hideHint = false,
-}: Props) {
+  onSubmit,
+}: Props<T>) {
   // 기본 아이콘 지정해줌
   const {
     imageSrc = "/src/components/input/assets/search.svg",
@@ -38,7 +47,7 @@ export function SearchInput({
     size = "30px",
   } = icon || {};
 
-  const inputVal = formControl.watch(input.name || "");
+  const inputVal = formControl.watch(input.name);
   const showHints = useMemo(() => {
     const _hints = hints?.length ? hints : emptyHint;
 
@@ -69,9 +78,10 @@ export function SearchInput({
   });
 
   return (
-    <div
+    <form
       className={`search-input-container ${className} ${isOpen ? "open" : ""}`}
       style={{ "--imgSize": searchImgSize } as CSSProperties} // 아이콘이 없는 경우 hint-item padding 조절이 필요함
+      onSubmit={formControl.handleSubmit(onSubmit)}
     >
       <div ref={ref} className={`input-container`} onClick={handleClick}>
         <img src={imageSrc} alt={alt} />
@@ -122,6 +132,6 @@ export function SearchInput({
           </div>
         )}
       </Popover>
-    </div>
+    </form>
   );
 }

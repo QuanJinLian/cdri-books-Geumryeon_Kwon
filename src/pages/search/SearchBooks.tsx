@@ -2,10 +2,13 @@ import { Empty, ItemCount, SearchSection } from "@/components";
 
 // 도서 검색
 export function SearchBooks() {
+  const onSubmit = (values) => {
+    console.log("onSubmit", values);
+  };
   return (
     <main className="tab-content-container">
       <p className="typo-title2">도서 검색</p>
-      <SearchSection />
+      <SearchSection onSubmit={onSubmit} />
       <div className="result-count">
         <ItemCount
           className="result"

@@ -24,6 +24,7 @@ export function useHints({ hintKey, limit = 8 }: UseHintProps) {
 
   const addHint: DeepNonNullable<HintItemProps>["onClick"] = (e, hint) => {
     setHints((prevHints) => {
+      if (!hint.id) return prevHints;
       const filtered = prevHints.filter((item) => item.id !== hint.id);
       const updated = [hint, ...filtered];
       return updated.slice(0, 8);
