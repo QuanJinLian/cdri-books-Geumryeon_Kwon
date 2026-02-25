@@ -42,3 +42,34 @@
     height: var(--itemSizeHeigth);
   }
 }
+
+.typo {
+  &-title1 {
+    font-size: 24px;
+    font-weight: 700;
+  }
+  &-title2 {
+    font-size: 22px;
+    font-weight: 700;
+  }
+  &-title3 {
+    font-size: 18px;
+    font-weight: 700;
+  }
+  &-body1 {
+    font-size: 20px;
+  }
+  &-body2 {
+    font-size: 14px;
+  }
+  &-body2-bold {
+    font-size: 14px;
+    font-weight: 700;
+  }
+  &-caption {
+    font-size: 16px;
+  }
+  &-small {
+    font-size: 10px;
+  }
+}
