@@ -29,7 +29,9 @@ export function ItemCount({ className = "", title, count }: Props) {
         {prefix && <span className="prefix">{prefix}</span>}
 
         <div className="count-suffix-group">
-          {number && <span className="count">{formatter(number)}</span>}
+          {typeof number === "number" && (
+            <span className="count">{formatter(number)}</span>
+          )}
           {suffix && <span className="suffix">{suffix}</span>}
         </div>
       </div>

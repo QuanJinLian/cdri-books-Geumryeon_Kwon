@@ -32,7 +32,10 @@ export function SearchSection({ onSubmit }: SearchSectionProps) {
   const { search, detailSearch, category } = watch();
 
   // hint 관련 로직
-  const { hints, addHint, removeHint } = useHints({ hintKey: "search-hint" });
+  const { hints, addHint, removeHint } = useHints({
+    hintKey: "search-hint",
+    limit: 8,
+  });
 
   const _onSubmit = (values: SearchFormValues) => {
     const search =

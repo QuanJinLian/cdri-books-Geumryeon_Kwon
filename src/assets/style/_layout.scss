@@ -29,6 +29,7 @@
 
     > .MuiTabPanel-root {
       width: inherit;
+      padding: 24px 24px 0 24px;
     }
 
     .tab-content-container {
@@ -59,7 +60,7 @@
       }
 
       .empty-container {
-        margin-top: 50px;
+        padding-top: 50px;
       }
     }
   }

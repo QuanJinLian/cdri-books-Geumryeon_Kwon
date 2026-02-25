@@ -27,7 +27,7 @@ export function useHints({ hintKey, limit = 8 }: UseHintProps) {
       if (!hint.id) return prevHints;
       const filtered = prevHints.filter((item) => item.id !== hint.id);
       const updated = [hint, ...filtered];
-      return updated.slice(0, 8);
+      return updated.length > limit ? updated.slice(0, limit) : updated;
     });
   };
 

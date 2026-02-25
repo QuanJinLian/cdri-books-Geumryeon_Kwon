@@ -15,7 +15,7 @@ import InfiniteScroll from "@/components/scroll/InfiniteScroll";
 export function SearchBooks() {
   const [values, setValues] = useState<SearchFormValues | undefined>();
 
-  const { data, isFetchingNextPage, hasNextPage, fetchNextPage } =
+  const { data, isFetchingNextPage, hasNextPage, fetchNextPage, isFetching } =
     useInfiniteQuery<BE_Response<BookCardItemProps<BE_BookItem>>>({
       queryKey: ["books", values],
       queryFn: async ({ queryKey, pageParam = 1 }) => {
@@ -45,6 +45,7 @@ export function SearchBooks() {
   const onSubmit = (values) => {
     setValues(values);
   };
+
   return (
     <main className="tab-content-container">
       <p className="typo-title2">도서 검색</p>
@@ -80,8 +81,10 @@ export function SearchBooks() {
           />
         )}
 
-        {!data?.pages?.length ||
-          (!data?.pages?.[0]?.documents && (
+        {(!data?.pages?.length || !data?.pages?.[0]?.documents?.length) &&
+          (isFetching ? (
+            <Empty imageSrc={"/src/assets/image/spinner.svg"} message={""} />
+          ) : (
             <Empty
               message={"검색된 결과가 없습니다."}
               imageSrc={"/src/assets/image/icon_book.svg"}
