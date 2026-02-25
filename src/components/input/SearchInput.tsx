@@ -1,9 +1,9 @@
-import { HintItem, HintItemProps } from "./HintItem";
-import { CSSProperties, InputHTMLAttributes, useMemo } from "react";
-import { usePopover } from "@/components";
+import { CSSProperties, InputHTMLAttributes, useMemo, useRef } from "react";
+import { HintItem, HintItemProps, usePopover } from "@/components";
 import { popoverSettings } from "@/defines";
 import { Popover } from "@mui/material";
 import { UseFormReturn } from "react-hook-form";
+import { useClickOutSide } from "@/hooks";
 
 type Props = {
   className?: string;
@@ -59,21 +59,23 @@ export function SearchInput({
   const searchImgSize = icon?.hidden ? "0" : size;
   const isOpen = popoverControl.open && !!showHints?.length;
 
+  const popperRef = useRef<HTMLDivElement>(null);
+
+  const { ref } = useClickOutSide<HTMLDivElement>({
+    ignoreDomList: [popperRef],
+    callback: () => {
+      handleClose({} as any, "escapeKeyDown");
+    },
+  });
+
   return (
     <div
       className={`search-input-container ${className} ${isOpen ? "open" : ""}`}
       style={{ "--imgSize": searchImgSize } as CSSProperties} // 아이콘이 없는 경우 hint-item padding 조절이 필요함
     >
-      <div className={`input-container`} onClick={handleClick}>
+      <div ref={ref} className={`input-container`} onClick={handleClick}>
         <img src={imageSrc} alt={alt} />
-        <input
-          {...input}
-          autoComplete="off"
-          onBlur={(e) => {
-            input?.onBlur?.(e);
-            handleClose(e, "escapeKeyDown");
-          }}
-        />
+        <input {...input} autoComplete="off" />
       </div>
 
       <Popover
@@ -106,9 +108,16 @@ export function SearchInput({
         }}
       >
         {!hideHint && (
-          <div className="search-input-content-container">
+          <div ref={popperRef} className="search-input-content-container">
             {showHints?.map((hint) => (
-              <HintItem key={hint.id} {...hint} />
+              <HintItem
+                key={hint.id}
+                {...hint}
+                onClick={(e) => {
+                  hint.onClick?.(e, hint);
+                  handleClose(e, "escapeKeyDown");
+                }}
+              />
             ))}
           </div>
         )}

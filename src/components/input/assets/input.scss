@@ -34,10 +34,22 @@
 
 // 프로젝트 맞춘 셋팅
 .hint-item-container {
+  &:hover {
+    cursor: pointer;
+    span {
+      filter: brightness(1.2);
+    }
+  }
   button {
     width: 16px;
     height: 16px;
     border: none;
     background: center / contain no-repeat url("/src/assets/image/close.svg");
+  }
+
+  &:has(button:hover) {
+    span {
+      filter: unset;
+    }
   }
 }

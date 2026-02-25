@@ -1,13 +1,16 @@
 import {
   CDRISelect,
+  HintItemProps,
   PopoverContainer,
+  SearchInput,
   SelectItem,
+  useHints,
   usePopover,
 } from "@/components";
 import { popoverSettings } from "@/defines";
 import { useForm } from "react-hook-form";
-import { SearchInput } from "@/components/input";
 import { Popover } from "@mui/material";
+import { useMemo } from "react";
 
 export function SearchSection() {
   const { handleClick, handleClose, popoverControl } = usePopover({
@@ -16,6 +19,28 @@ export function SearchSection() {
   });
   const formControl = useForm();
   const { register, setValue, watch } = formControl;
+
+  // hint 관련 로직
+  const { hints, addHint, removeHint } = useHints({ hintKey: "search-hint" });
+  const hintItemClick: typeof addHint = (e, data) => {
+    addHint(e, data);
+
+    // 검색 query 로직
+  };
+  const hintsProps = useMemo(
+    () =>
+      hints?.map(
+        (h) =>
+          ({
+            ...h,
+            onClick: hintItemClick,
+            button: {
+              onClick: removeHint,
+            },
+          }) as HintItemProps,
+      ),
+    [hints],
+  );
 
   return (
     <div className="search-section-container">
@@ -26,7 +51,7 @@ export function SearchSection() {
             placeholder: "검색어를 입력하여 주세요",
           }}
           formControl={formControl}
-          hints={[]}
+          hints={hintsProps}
         />
       </div>
       <button className="transparent-button" onClick={handleClick}>
