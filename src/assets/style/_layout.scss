@@ -25,6 +25,7 @@
     justify-content: center;
     margin: 0 auto;
     width: 980px;
+    min-height: 0;
 
     > .MuiTabPanel-root {
       width: inherit;
@@ -41,6 +42,20 @@
 
       > div {
         margin-top: 20px;
+      }
+
+      .result-content {
+        flex: 1;
+        overflow: auto;
+        min-height: 0;
+
+        content-visibility: auto;
+        contain-intrinsic-size: 0 100px;
+
+        &:has(.empty-container) {
+          flex: unset;
+          overflow: unset;
+        }
       }
 
       .empty-container {

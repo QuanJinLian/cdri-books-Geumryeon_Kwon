@@ -6,3 +6,4 @@ export * from "./empty";
 export * from "./input";
 export * from "./number";
 export * from "./hint";
+export * from "./scroll";

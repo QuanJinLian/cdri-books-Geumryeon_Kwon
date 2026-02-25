@@ -29,12 +29,12 @@ export function BookCard<T extends FieldValues>({
   const handleChange: NonNullable<
     BookCardItemProps<T>["accordion"]
   >["onChange"] = (id) => {
+    const hasId = openIds.has(id);
     if (!multi) {
-      setOpenIds(new Set([id]));
+      setOpenIds(new Set(hasId ? [] : [id]));
       return;
     }
 
-    const hasId = openIds.has(id);
     if (hasId) {
       setOpenIds(new Set([...openIds].filter((x) => x !== id)));
     } else {

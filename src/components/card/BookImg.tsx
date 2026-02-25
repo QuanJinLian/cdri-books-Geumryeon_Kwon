@@ -13,7 +13,12 @@ export function BookImg({ id, imgSrc, alt, heart }: BookImgProps) {
 
   return (
     <div className="book-image-container">
-      <img className="book-img" src={imgSrc} alt={alt} />
+      <img
+        className="book-img"
+        src={imgSrc || "src/assets/image/empty-img.webp"}
+        alt={alt}
+        loading="lazy"
+      />
       {heart && (
         <img
           className="heart-img"
@@ -24,6 +29,7 @@ export function BookImg({ id, imgSrc, alt, heart }: BookImgProps) {
           }
           alt={`heart-${checked ? "checked" : ""}`}
           onClick={() => onChange?.(id, !checked)}
+          loading="lazy"
         />
       )}
     </div>

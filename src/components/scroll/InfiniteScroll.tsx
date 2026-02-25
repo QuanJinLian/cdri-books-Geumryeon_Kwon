@@ -5,7 +5,7 @@ export type InfiniteScrollProps = {
   onLoadMore: () => void;
   hasMore: boolean;
   isLoading: boolean;
-  loadingComponent: ReactNode;
+  loadingComponent?: ReactNode;
 };
 
 const InfiniteScroll = ({
@@ -48,6 +48,7 @@ const InfiniteScroll = ({
               className="loading-icon"
               src="/src/assets/image/spinner.svg"
               alt="loading-icon"
+              loading="lazy"
             />
           )}
         </p>

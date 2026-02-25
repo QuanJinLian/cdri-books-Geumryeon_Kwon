@@ -12,14 +12,14 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { Popover } from "@mui/material";
 import { useEffect, useMemo } from "react";
 
-type FormValues = {
+export type SearchFormValues = {
   search: string;
   category: string;
   detailSearch: string;
 };
 
 type SearchSectionProps = {
-  onSubmit: SubmitHandler<FormValues>;
+  onSubmit: SubmitHandler<SearchFormValues>;
 };
 
 export function SearchSection({ onSubmit }: SearchSectionProps) {
@@ -27,17 +27,26 @@ export function SearchSection({ onSubmit }: SearchSectionProps) {
     id: "detail-search",
     popoverProps: popoverSettings.bottomCenter,
   });
-  const formControl = useForm<FormValues>();
+  const formControl = useForm<SearchFormValues>();
   const { register, setValue, watch, getValues, handleSubmit } = formControl;
+  const { search, detailSearch, category } = watch();
 
   // hint 관련 로직
   const { hints, addHint, removeHint } = useHints({ hintKey: "search-hint" });
 
-  const _onSubmit = (values: FormValues) => {
-    const search = values.search || values.detailSearch;
+  const _onSubmit = (values: SearchFormValues) => {
+    const search =
+      values.search ||
+      (values.category && values.detailSearch ? values.detailSearch : "");
+
+    if (!search) {
+      console.error("there is no search value in SearchSection");
+      return;
+    }
 
     addHint({} as any, { id: search, label: search });
     onSubmit(values);
+    handleClose({}, "escapeKeyDown");
   };
 
   const hintItemClick: typeof addHint = (e, data) => {
@@ -62,7 +71,6 @@ export function SearchSection({ onSubmit }: SearchSectionProps) {
   );
 
   // input 끼리 연관 로직
-  const { search, detailSearch, category } = watch();
   useEffect(() => {
     if (search && (detailSearch || category)) {
       setValue("category", "");
@@ -128,7 +136,7 @@ export function SearchSection({ onSubmit }: SearchSectionProps) {
 
 const items: SelectItem[] = [
   {
-    value: "author",
+    value: "person",
     label: "저자명",
   },
   {

@@ -72,7 +72,11 @@ export function BookCardItem<T extends FieldValues>({
               }}
             >
               상세보기
-              <img src="/src/assets/image/arrow-down.svg" alt="arrow-down" />
+              <img
+                src="/src/assets/image/arrow-down.svg"
+                alt="arrow-down"
+                loading="lazy"
+              />
             </button>
           )}
         </div>

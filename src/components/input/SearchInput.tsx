@@ -73,15 +73,20 @@ export function SearchInput<T extends FieldValues>({
   const { ref } = useClickOutSide<HTMLDivElement>({
     ignoreDomList: [popperRef],
     callback: () => {
-      handleClose({} as any, "escapeKeyDown");
+      handleClose({}, "escapeKeyDown");
     },
   });
+
+  const _onSubmit: typeof onSubmit = (data, event) => {
+    onSubmit(data, event);
+    handleClose({}, "escapeKeyDown");
+  };
 
   return (
     <form
       className={`search-input-container ${className} ${isOpen ? "open" : ""}`}
       style={{ "--imgSize": searchImgSize } as CSSProperties} // 아이콘이 없는 경우 hint-item padding 조절이 필요함
-      onSubmit={formControl.handleSubmit(onSubmit)}
+      onSubmit={formControl.handleSubmit(_onSubmit)}
     >
       <div ref={ref} className={`input-container`} onClick={handleClick}>
         <img src={imageSrc} alt={alt} />
