@@ -1,7 +1,4 @@
-import {
-  BookCardItem,
-  BookCardItemProps,
-} from "@/components/card/BookCardItem";
+import { BookCardItem, BookCardItemProps } from "@/components";
 import { FieldValues } from "react-hook-form";
 import { useState } from "react";
 

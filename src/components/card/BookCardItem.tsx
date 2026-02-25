@@ -1,7 +1,5 @@
-import { ItemCount } from "@/components";
-import { BookTitle } from "@/components/card/BookTitle";
+import { ItemCount, BookTitle, BookImgProps, BookImg } from "@/components";
 import { FieldValues } from "react-hook-form";
-import { BookImg, BookImgProps } from "@/components/card/BookImg";
 
 export type BookCardItemProps<T extends FieldValues> = {
   id: string;

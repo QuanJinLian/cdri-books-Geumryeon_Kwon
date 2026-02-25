@@ -1,16 +1,17 @@
 import {
+  BookCard,
+  BookCardItemProps,
   Empty,
   ItemCount,
   SearchFormValues,
   SearchSection,
   SelectItem,
+  InfiniteScroll,
 } from "@/components";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useState } from "react";
 import { BE_BookItem, BE_Response } from "@/types";
-import { BookCard, BookCardItemProps } from "@/components/card";
-import InfiniteScroll from "@/components/scroll/InfiniteScroll";
 
 // 도서 검색
 export function SearchBooks() {

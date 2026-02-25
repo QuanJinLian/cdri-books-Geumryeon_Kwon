@@ -8,7 +8,7 @@ export type InfiniteScrollProps = {
   loadingComponent?: ReactNode;
 };
 
-const InfiniteScroll = ({
+export const InfiniteScroll = ({
   className = "",
   onLoadMore,
   hasMore,
@@ -56,5 +56,3 @@ const InfiniteScroll = ({
     </div>
   );
 };
-
-export default InfiniteScroll;
