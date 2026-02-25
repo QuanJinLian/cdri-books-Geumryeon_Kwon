@@ -34,7 +34,10 @@ export function useTabs({
   const Tabs = () => {
     return (
       <TabContext value={selectedId}>
-        <Box {...(tabListBoxProps || {})}>
+        <Box
+          {...(tabListBoxProps || {})}
+          className={`tabs-list-container ${tabListBoxProps?.className || ""}`}
+        >
           <TabList
             {...(tabListProps || {})}
             sx={{
@@ -51,11 +54,13 @@ export function useTabs({
             ))}
           </TabList>
         </Box>
-        {tabs?.map(({ component, id, tabPanelProps }) => (
-          <TabPanel key={id} {...tabPanelProps} value={id}>
-            {component}
-          </TabPanel>
-        ))}
+        <Box className="tabs-panel-container">
+          {tabs?.map(({ component, id, tabPanelProps }) => (
+            <TabPanel key={id} {...tabPanelProps} value={id}>
+              {component}
+            </TabPanel>
+          ))}
+        </Box>
       </TabContext>
     );
   };

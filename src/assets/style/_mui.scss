@@ -1,6 +1,10 @@
+@use "common";
+
 div.MuiTabs-list {
   .MuiButtonBase-root {
     color: var(--text-primary);
+    padding: 0;
+    @extend.typo-body1;
   }
 }
 
