@@ -7,8 +7,7 @@ import { useState } from "react";
 
 export type BookCardProps<T extends FieldValues> = {
   className?: string;
-  data: Omit<BookCardItemProps<T>, "onClick" | "accordion">[];
-  onClick: BookCardItemProps<T>["onClick"];
+  data: Omit<BookCardItemProps<T>, "accordion">[];
   accordion: {
     multi?: boolean; // 기본값 false, 하나만 열린다.
     hidden?: boolean; // 기본값 false
@@ -19,7 +18,6 @@ export type BookCardProps<T extends FieldValues> = {
 export function BookCard<T extends FieldValues>({
   className = "",
   data,
-  onClick,
   accordion,
 }: BookCardProps<T>) {
   const { multi = false, hidden = false } = accordion || {};
@@ -50,7 +48,6 @@ export function BookCard<T extends FieldValues>({
         <BookCardItem
           key={dataItem.id}
           {...dataItem}
-          onClick={onClick}
           accordion={
             hidden
               ? undefined

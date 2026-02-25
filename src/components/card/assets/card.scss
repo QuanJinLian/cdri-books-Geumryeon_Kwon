@@ -12,6 +12,32 @@
   }
 }
 
+.book-image-container {
+  --bookImgSize: 48px;
+  --heartSize: 16px;
+  --heartPos: 2px;
+
+  position: relative;
+  .book-img {
+    object-fit: cover;
+    width: var(--bookImgSize);
+  }
+
+  .heart-img {
+    cursor: pointer;
+    position: absolute;
+    width: var(--heartSize);
+    height: var(--heartSize);
+    top: var(--heartPos);
+    right: var(--heartPos);
+
+    &.disabled {
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+  }
+}
+
 .book-card-item-container {
   display: flex;
   padding: 16px;
@@ -19,9 +45,7 @@
 
   .img-container {
     padding: 0 32px;
-    img {
-      object-fit: cover;
-      width: 48px;
+    .book-img {
       transition: all 0.3s;
     }
   }
@@ -119,8 +143,12 @@
 
     .img-container {
       padding: 0 32px;
-      img {
-        width: 210px;
+      .book-img {
+        --bookImgSize: 210px;
+      }
+      .heart-img {
+        --heartSize: 24px;
+        --heartPos: 10px;
       }
     }
 

@@ -1,6 +1,7 @@
 import { ItemCount } from "@/components";
 import { BookTitle } from "@/components/card/BookTitle";
 import { FieldValues } from "react-hook-form";
+import { BookImg, BookImgProps } from "@/components/card/BookImg";
 
 export type BookCardItemProps<T extends FieldValues> = {
   id: string;
@@ -15,6 +16,7 @@ export type BookCardItemProps<T extends FieldValues> = {
     isOpen: boolean;
     onChange: (id: string) => void;
   };
+  heart?: NonNullable<BookImgProps>["heart"];
 };
 
 export function BookCardItem<T extends FieldValues>({
@@ -27,6 +29,7 @@ export function BookCardItem<T extends FieldValues>({
   rawData,
   onClick,
   accordion,
+  heart,
 }: BookCardItemProps<T>) {
   const { isOpen = false, onChange } = accordion || {};
   const lastPrice = prices[prices.length - 1];
@@ -43,10 +46,12 @@ export function BookCardItem<T extends FieldValues>({
   return (
     <div className={`book-card-item-container ${isOpen ? "detail-open" : ""}`}>
       <div className="img-container">
-        <img src={imgSrc} alt={title} />
+        {/* 이미지 찜하기 버튼 포함 */}
+        <BookImg id={id} imgSrc={imgSrc} alt={title} heart={heart} />
       </div>
       <div className="content-container">
         <div className="content-header">
+          {/* 제목 + 작가 + 가격 ,,, 가격은 detail-open 상태에서 css로 숨김 처리*/}
           <ItemCount
             className="book-name-price"
             title={<BookTitle title={title} subTitle={author?.join(", ")} />}
