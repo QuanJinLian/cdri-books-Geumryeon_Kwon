@@ -1,6 +1,5 @@
 import { TabItem, useTabs } from "@/components";
-import { Box } from "@mui/material";
-import { Logo } from "@/pages";
+import { LikeBooks, Logo, SearchBooks } from "@/pages";
 
 export function MainLayout() {
   const { Tabs } = useTabs({
@@ -12,10 +11,10 @@ export function MainLayout() {
   });
 
   return (
-    <Box className="main-container">
+    <>
       <Logo />
       <Tabs />
-    </Box>
+    </>
   );
 }
 
@@ -23,11 +22,11 @@ const tabs: TabItem[] = [
   {
     id: "search",
     label: "도서 검색",
-    component: <div>도서 검색</div>,
+    component: <SearchBooks />,
   },
   {
     id: "like",
-    label: "찜한 책",
-    component: <div>찜한 책</div>,
+    label: "내가 찜한 책",
+    component: <LikeBooks />,
   },
 ];

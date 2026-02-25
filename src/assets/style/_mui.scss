@@ -3,6 +3,7 @@
 div.MuiTabs-list {
   .MuiButtonBase-root {
     color: var(--text-primary);
+    margin: 0 16px;
     padding: 0;
     @extend.typo-body1;
   }

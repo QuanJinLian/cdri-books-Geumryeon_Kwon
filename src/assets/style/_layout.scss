@@ -1,4 +1,4 @@
-.main-container {
+#root {
   --header-height: 80px;
   position: relative;
   height: 100vh;
@@ -23,9 +23,29 @@
     flex: 1;
     display: flex;
     justify-content: center;
+    margin: 0 auto;
+    width: 980px;
 
-    > div {
-      width: 980px;
+    > .MuiTabPanel-root {
+      width: inherit;
+    }
+
+    .tab-content-container {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+
+      .typo-title2 {
+        margin-top: 50px;
+      }
+
+      > div {
+        margin-top: 20px;
+      }
+
+      .empty-container {
+        margin-top: 50px;
+      }
     }
   }
 }
