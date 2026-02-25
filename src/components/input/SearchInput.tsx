@@ -56,10 +56,11 @@ export function SearchInput<T extends FieldValues>({
       : hints?.filter((h) => h.label.includes(inputVal));
   }, [hints, inputVal]);
 
-  const { handleClick, handleClose, anchorEl, popoverControl } = usePopover({
-    id: "detail-search",
-    popoverProps: popoverSettings.bottomCenter,
-  });
+  const { handleClick, handleClose, anchorEl, popoverControl, setOpen } =
+    usePopover({
+      id: "detail-search",
+      popoverProps: popoverSettings.bottomCenter,
+    });
   const { width } = useMemo(
     () => anchorEl?.getBoundingClientRect() || ({} as DOMRect),
     [anchorEl],
@@ -90,7 +91,14 @@ export function SearchInput<T extends FieldValues>({
     >
       <div ref={ref} className={`input-container`} onClick={handleClick}>
         <img src={imageSrc} alt={alt} />
-        <input {...input} autoComplete="off" />
+        <input
+          {...input}
+          onChange={(e) => {
+            input.onChange?.(e);
+            setOpen(true);
+          }}
+          autoComplete="off"
+        />
       </div>
 
       <Popover
