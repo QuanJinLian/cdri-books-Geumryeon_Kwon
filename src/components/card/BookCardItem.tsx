@@ -1,24 +1,44 @@
-import { useState } from "react";
 import { ItemCount } from "@/components";
 import { BookTitle } from "@/components/card/BookTitle";
+import { FieldValues } from "react-hook-form";
 
-type BookCardItemProps = {
+export type BookCardItemProps<T extends FieldValues> = {
+  id: string;
   imgSrc: string;
   title: string;
   author: string[];
   prices: number[]; //가격
   content?: string;
+  rawData?: T;
+  onClick: (data: T | undefined) => void; // 구매 버튼 클릭
+  accordion?: {
+    isOpen: boolean;
+    onChange: (id: string) => void;
+  };
 };
 
-export function BookCardItem({
+export function BookCardItem<T extends FieldValues>({
+  id,
   imgSrc,
   prices,
   author,
   title,
   content,
-}: BookCardItemProps) {
-  const [isOpen, setIsOpen] = useState(false);
+  rawData,
+  onClick,
+  accordion,
+}: BookCardItemProps<T>) {
+  const { isOpen = false, onChange } = accordion || {};
   const lastPrice = prices[prices.length - 1];
+
+  const BuyButton = (
+    <button
+      className="primary-button buy-button"
+      onClick={() => onClick(rawData)}
+    >
+      구매하기
+    </button>
+  );
 
   return (
     <div className={`book-card-item-container ${isOpen ? "detail-open" : ""}`}>
@@ -35,14 +55,21 @@ export function BookCardItem({
               suffix: "원",
             }}
           />
-          <button className="primary-button buy-button">구매하기</button>
-          <button
-            className="gray-button detail-button"
-            onClick={() => setIsOpen(!isOpen)}
-          >
-            상세보기
-            <img src="/src/assets/image/arrow-down.svg" alt="arrow-down" />
-          </button>
+          {/* 구매하기 버튼 */}
+          {BuyButton}
+
+          {/* accordion 설정 있을 경우에만 버튼 노출 */}
+          {accordion && (
+            <button
+              className="gray-button detail-button"
+              onClick={() => {
+                onChange?.(id);
+              }}
+            >
+              상세보기
+              <img src="/src/assets/image/arrow-down.svg" alt="arrow-down" />
+            </button>
+          )}
         </div>
 
         {/* 상세 컨텐트 */}
@@ -56,6 +83,7 @@ export function BookCardItem({
               <div className="price-container">
                 {prices.map((price, i) => (
                   <ItemCount
+                    key={`price-${price}-${i}`}
                     className={`price ${i === prices.length - 1 ? "" : "strikethrough"}`}
                     count={{
                       prefix: i === 0 ? "원가" : "할인가",
@@ -65,7 +93,9 @@ export function BookCardItem({
                   />
                 ))}
               </div>
-              <button className="primary-button buy-button">구매하기</button>
+
+              {/* 구매하기 버튼 */}
+              {BuyButton}
             </div>
           </div>
         </div>
