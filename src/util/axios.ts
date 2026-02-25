@@ -8,7 +8,6 @@ const KAKAO_KEY = import.meta.env.VITE_KAKAO_API_KEY;
 function reqSuccess(config: InternalAxiosRequestConfig) {
   config.baseURL = "https://dapi.kakao.com";
 
-  console.log("sss", KAKAO_KEY);
   if (KAKAO_KEY) config.headers.setAuthorization("KakaoAK " + KAKAO_KEY);
   return config;
 }

@@ -34,7 +34,8 @@ export function SearchBooks() {
       },
       initialPageParam: 1,
       getNextPageParam: (lastPage, allPages) => {
-        if (lastPage.meta.is_end) return undefined;
+        if (lastPage.meta.is_end || !lastPage.meta.total_count)
+          return undefined;
         return allPages.length + 1;
       },
       enabled: !!values,

@@ -42,12 +42,10 @@ export function SearchSection({ onSubmit }: SearchSectionProps) {
       values.search ||
       (values.category && values.detailSearch ? values.detailSearch : "");
 
-    if (!search) {
-      console.error("there is no search value in SearchSection");
-      return;
+    if (search) {
+      addHint({} as any, { id: search, label: search });
     }
 
-    addHint({} as any, { id: search, label: search });
     onSubmit(values);
     handleClose({}, "escapeKeyDown");
   };
