@@ -1,0 +1,14 @@
+.infinite-scroll-container {
+  min-height: 20px;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .loading-icon {
+    --size: 50px;
+
+    width: var(--size);
+    height: var(--size);
+  }
+}
