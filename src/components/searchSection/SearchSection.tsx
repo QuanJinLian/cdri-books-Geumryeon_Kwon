@@ -20,9 +20,13 @@ export type SearchFormValues = {
 
 type SearchSectionProps = {
   onSubmit: SubmitHandler<SearchFormValues>;
+  select: {
+    items: SelectItem[];
+    selected?: SelectItem["value"];
+  };
 };
 
-export function SearchSection({ onSubmit }: SearchSectionProps) {
+export function SearchSection({ onSubmit, select }: SearchSectionProps) {
   const { handleClick, handleClose, popoverControl } = usePopover({
     id: "detail-search",
     popoverProps: popoverSettings.bottomCenter,
@@ -71,10 +75,18 @@ export function SearchSection({ onSubmit }: SearchSectionProps) {
     [hints],
   );
 
+  //select
+  const { items, selected } = select;
+  useEffect(() => {
+    if (!selected) return;
+
+    setValue("category", selected);
+  }, [selected]);
+
   // input 끼리 연관 로직
   useEffect(() => {
     if (search && (detailSearch || category)) {
-      setValue("category", "");
+      setValue("category", selected || "");
       setValue("detailSearch", "");
     }
   }, [search]);
@@ -112,7 +124,7 @@ export function SearchSection({ onSubmit }: SearchSectionProps) {
             <div className="input-container">
               <CDRISelect
                 items={items}
-                inputLabel="제목"
+                selected={category}
                 selectProps={{
                   onChange: (e, values) => {
                     setValue("category", values?.current?.[0]);
@@ -134,14 +146,3 @@ export function SearchSection({ onSubmit }: SearchSectionProps) {
     </div>
   );
 }
-
-const items: SelectItem[] = [
-  {
-    value: "person",
-    label: "저자명",
-  },
-  {
-    value: "publisher",
-    label: "출판사",
-  },
-];

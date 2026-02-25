@@ -3,6 +3,7 @@ import {
   ItemCount,
   SearchFormValues,
   SearchSection,
+  SelectItem,
 } from "@/components";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
@@ -50,7 +51,10 @@ export function SearchBooks() {
   return (
     <main className="tab-content-container">
       <p className="typo-title2">도서 검색</p>
-      <SearchSection onSubmit={onSubmit} />
+      <SearchSection
+        onSubmit={onSubmit}
+        select={{ items: items, selected: items[0].value }}
+      />
       <div className="result-count">
         <ItemCount
           className="result"
@@ -118,3 +122,18 @@ function converter(data: BE_BookItem[]) {
       }) as BookCardItemProps<BE_BookItem>,
   );
 }
+
+const items: SelectItem[] = [
+  {
+    value: "title",
+    label: "제목",
+  },
+  {
+    value: "person",
+    label: "저자명",
+  },
+  {
+    value: "publisher",
+    label: "출판사",
+  },
+];
