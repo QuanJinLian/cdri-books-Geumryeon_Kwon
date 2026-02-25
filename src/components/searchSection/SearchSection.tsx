@@ -7,13 +7,15 @@ import {
 import { popoverSettings } from "@/defines";
 import { useForm } from "react-hook-form";
 import { SearchInput } from "@/components/input";
+import { Popover } from "@mui/material";
 
 export function SearchSection() {
-  const { handleClick, handleClose, Popover } = usePopover({
+  const { handleClick, handleClose, popoverControl } = usePopover({
     id: "detail-search",
     popoverProps: popoverSettings.bottomCenter,
   });
-  const { register, setValue, watch } = useForm();
+  const formControl = useForm();
+  const { register, setValue, watch } = formControl;
 
   return (
     <div className="search-section-container">
@@ -23,13 +25,14 @@ export function SearchSection() {
             ...register("search"),
             placeholder: "검색어를 입력하여 주세요",
           }}
+          formControl={formControl}
           hints={[]}
         />
       </div>
       <button className="transparent-button" onClick={handleClick}>
         상세 검색
       </button>
-      <Popover>
+      <Popover {...popoverControl}>
         <PopoverContainer
           onClose={handleClose}
           typographyProps={{ sx: { width: 360 } }}

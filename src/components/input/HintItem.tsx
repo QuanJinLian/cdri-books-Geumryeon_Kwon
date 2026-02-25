@@ -1,18 +1,18 @@
 import React, { ButtonHTMLAttributes } from "react";
 
-type Props = {
+export type HintItemProps = {
   className?: string;
   id: string;
   label: string;
   onClick?: (
     e: React.MouseEvent<HTMLDivElement>,
-    data: Pick<Props, "id" | "label">,
+    data: Pick<HintItemProps, "id" | "label">,
   ) => void;
   button?: Omit<ButtonHTMLAttributes<HTMLButtonElement>, "onClick"> & {
     text?: string;
     onClick?: (
       e: React.MouseEvent<HTMLButtonElement>,
-      data: Pick<Props, "id" | "label">,
+      data: Pick<HintItemProps, "id" | "label">,
     ) => void;
   };
 };
@@ -23,7 +23,7 @@ export function HintItem({
   label,
   onClick,
   button,
-}: Props) {
+}: HintItemProps) {
   const { onClick: buttonOnClick, text, ...restButtonAttribute } = button || {};
   return (
     <div

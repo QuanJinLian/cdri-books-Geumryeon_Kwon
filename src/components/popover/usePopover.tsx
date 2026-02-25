@@ -28,25 +28,17 @@ export function usePopover<T extends HTMLElement>({
   const open = Boolean(anchorEl);
   const _id = open ? id : undefined;
 
-  const _Popover = ({ children }: { children: ReactNode }) => {
-    return (
-      <Popover
-        id={_id}
-        open={open}
-        anchorEl={anchorEl}
-        onClose={handleClose}
-        {...restProps}
-      >
-        {children}
-      </Popover>
-    );
-  };
-
   return {
     id: _id,
-    Popover: _Popover,
     handleClick,
     handleClose,
     anchorEl,
+    popoverControl: {
+      id: _id,
+      onClose: handleClose,
+      open: open,
+      anchorEl: anchorEl,
+      ...restProps,
+    },
   };
 }

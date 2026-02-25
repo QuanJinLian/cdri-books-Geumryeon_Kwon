@@ -27,11 +27,8 @@
       flex: 1;
       border: none;
     }
-  }
 
-  .content-container:has(div) {
-    margin-left: var(--imgSize);
-    margin-top: 10px;
+    border-radius: 24px;
   }
 }
 

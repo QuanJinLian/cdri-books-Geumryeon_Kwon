@@ -1,5 +1,9 @@
-import { HintItem } from "./HintItem";
-import { CSSProperties, InputHTMLAttributes } from "react";
+import { HintItem, HintItemProps } from "./HintItem";
+import { CSSProperties, InputHTMLAttributes, useMemo } from "react";
+import { usePopover } from "@/components";
+import { popoverSettings } from "@/defines";
+import { Popover } from "@mui/material";
+import { UseFormReturn } from "react-hook-form";
 
 type Props = {
   className?: string;
@@ -10,14 +14,20 @@ type Props = {
     size?: string;
   };
   input: InputHTMLAttributes<HTMLInputElement>;
-  hints?: Parameters<typeof HintItem>[0][];
+  formControl: UseFormReturn;
+  hints?: HintItemProps[];
   hideHint?: boolean;
 };
 
+const emptyHint: HintItemProps[] = [
+  { id: "empty", label: "검색 기록이 없습니다." },
+];
+
 export function SearchInput({
-  className,
+  className = "",
   icon,
   input,
+  formControl,
   hints,
   hideHint = false,
 }: Props) {
@@ -28,23 +38,81 @@ export function SearchInput({
     size = "30px",
   } = icon || {};
 
+  const inputVal = formControl.watch(input.name || "");
+  const showHints = useMemo(() => {
+    const _hints = hints?.length ? hints : emptyHint;
+
+    return !inputVal
+      ? _hints
+      : hints?.filter((h) => h.label.includes(inputVal));
+  }, [hints, inputVal]);
+
+  const { handleClick, handleClose, anchorEl, popoverControl } = usePopover({
+    id: "detail-search",
+    popoverProps: popoverSettings.bottomCenter,
+  });
+  const { width } = useMemo(
+    () => anchorEl?.getBoundingClientRect() || ({} as DOMRect),
+    [anchorEl],
+  );
+
+  const searchImgSize = icon?.hidden ? "0" : size;
+  const isOpen = popoverControl.open && !!showHints?.length;
+
   return (
     <div
-      className={`search-input-container ${className}`}
-      style={{ "--imgSize": icon?.hidden ? "0" : size } as CSSProperties} // 아이콘이 없는 경우 hint-item padding 조절이 필요함
+      className={`search-input-container ${className} ${isOpen ? "open" : ""}`}
+      style={{ "--imgSize": searchImgSize } as CSSProperties} // 아이콘이 없는 경우 hint-item padding 조절이 필요함
     >
-      <div className="input-container">
+      <div className={`input-container`} onClick={handleClick}>
         <img src={imageSrc} alt={alt} />
-        <input {...input} />
+        <input
+          {...input}
+          autoComplete="off"
+          onBlur={(e) => {
+            input?.onBlur?.(e);
+            handleClose(e, "escapeKeyDown");
+          }}
+        />
       </div>
 
-      {!hideHint && (
-        <div className="content-container">
-          {hints?.map((hint) => (
-            <HintItem key={hint.id} {...hint} />
-          ))}
-        </div>
-      )}
+      <Popover
+        className={`search-input-popper`}
+        {...popoverControl}
+        transitionDuration={0}
+        hideBackdrop
+        disableAutoFocus
+        disableEnforceFocus
+        disableRestoreFocus
+        slotProps={{
+          root: {
+            sx: { pointerEvents: "none" },
+          },
+          paper: {
+            sx: {
+              pointerEvents: "auto",
+              "--Paper-shadow": "unset !important",
+              marginTop: "9px",
+              borderRadius: "0 0 24px 24px",
+              ".search-input-content-container": {
+                width: width + 20 + "px",
+                padding: isOpen ? "12px 12px 12px 45px" : "0",
+              },
+              ".hint-item-container": {
+                color: "var(--text-subtitle)",
+              },
+            },
+          },
+        }}
+      >
+        {!hideHint && (
+          <div className="search-input-content-container">
+            {showHints?.map((hint) => (
+              <HintItem key={hint.id} {...hint} />
+            ))}
+          </div>
+        )}
+      </Popover>
     </div>
   );
 }

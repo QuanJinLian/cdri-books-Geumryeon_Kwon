@@ -32,6 +32,10 @@
     width: 480px;
     background-color: var(--light-gray);
     border-radius: 24px;
+
+    &:has(.open) {
+      border-radius: 24px 24px 0 0;
+    }
   }
 
   > *:nth-child(n + 2) {
@@ -41,6 +45,10 @@
   button {
     height: var(--itemSizeHeigth);
   }
+}
+
+.search-input-content-container {
+  background-color: var(--light-gray);
 }
 
 .typo {
