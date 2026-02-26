@@ -9,9 +9,9 @@ import {
   InfiniteScroll,
 } from "@/components";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import axios from "axios";
 import { useState } from "react";
 import { BE_BookItem, BE_Response } from "@/types";
+import { getNextPageParam, getSearchBooks } from "@/pages/search/search-api";
 
 // 도서 검색
 export function SearchBooks() {
@@ -20,26 +20,9 @@ export function SearchBooks() {
   const { data, isFetchingNextPage, hasNextPage, fetchNextPage, isFetching } =
     useInfiniteQuery<BE_Response<BookCardItemProps<BE_BookItem>>>({
       queryKey: ["books", values],
-      queryFn: async ({ queryKey, pageParam = 1 }) => {
-        const queryKey1 = queryKey[1] as typeof values;
-        const params = queryKey1?.search
-          ? { query: queryKey1.search }
-          : { query: queryKey1?.detailSearch, target: queryKey1?.category };
-        const { data } = await axios.get("/v3/search/book", {
-          params: {
-            ...params,
-            page: pageParam,
-          },
-        });
-        data.documents = converter(data.documents);
-        return data;
-      },
+      queryFn: getSearchBooks,
       initialPageParam: 1,
-      getNextPageParam: (lastPage, allPages) => {
-        if (lastPage.meta.is_end || !lastPage.meta.total_count)
-          return undefined;
-        return allPages.length + 1;
-      },
+      getNextPageParam: getNextPageParam,
       enabled: !!values,
       staleTime: 1000 * 60 * 5,
       gcTime: 1000 * 60 * 30,
@@ -99,28 +82,6 @@ export function SearchBooks() {
       </div>
       <div></div>
     </main>
-  );
-}
-
-const buyOnClick: BookCardItemProps<BE_BookItem>["onClick"] = (data) => {
-  if (!data?.url) return;
-
-  window.open(data?.url, "_blank");
-};
-
-function converter(data: BE_BookItem[]) {
-  return data?.map?.(
-    (d, i) =>
-      ({
-        id: d.isbn,
-        title: d.title,
-        content: d.contents,
-        author: d.authors,
-        prices: [d.price, d.sale_price],
-        imgSrc: d.thumbnail,
-        onClick: buyOnClick,
-        rawData: d,
-      }) as BookCardItemProps<BE_BookItem>,
   );
 }
 
