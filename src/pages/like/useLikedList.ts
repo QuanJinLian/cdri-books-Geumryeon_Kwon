@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { BE_BookItem, DeepNonNullable } from "@/types";
 import { BookCardItemProps } from "@/components";
 
-export type LikedListObj = Record<BE_BookItem["isbn"], BE_BookItem>;
+export type LikedListObj = Record<string, BE_BookItem>;
 const KEY = "liked-list";
 
 export function useLikedList() {

@@ -12,6 +12,10 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { Popover } from "@mui/material";
 import { useEffect, useMemo } from "react";
 
+const emptyHint: HintItemProps[] = [
+  { id: "empty", label: "검색 기록이 없습니다." },
+];
+
 export type SearchFormValues = {
   search: string;
   category: string;
@@ -41,19 +45,6 @@ export function SearchSection({ onSubmit, select }: SearchSectionProps) {
     limit: 8,
   });
 
-  const _onSubmit = (values: SearchFormValues) => {
-    const search =
-      values.search ||
-      (values.category && values.detailSearch ? values.detailSearch : "");
-
-    if (search) {
-      addHint({} as any, { id: search, label: search });
-    }
-
-    onSubmit(values);
-    handleClose({}, "escapeKeyDown");
-  };
-
   const hintItemClick: typeof addHint = (e, data) => {
     // 검색 query 로직
     setValue("search", data.label);
@@ -74,6 +65,29 @@ export function SearchSection({ onSubmit, select }: SearchSectionProps) {
       ),
     [hints],
   );
+
+  // 필요하면 여기서 debounce 처리
+  const showHints = useMemo(() => {
+    let _hints = hintsProps?.length ? hintsProps : emptyHint;
+
+    return !search
+      ? _hints
+      : hintsProps?.filter((h) => h.label.includes(search));
+  }, [hintsProps, search]);
+  // hint 관련 로직 끝
+
+  const _onSubmit = (values: SearchFormValues) => {
+    const search =
+      values.search ||
+      (values.category && values.detailSearch ? values.detailSearch : "");
+
+    if (search) {
+      addHint({} as any, { id: search, label: search });
+    }
+
+    onSubmit(values);
+    handleClose({}, "escapeKeyDown");
+  };
 
   //select
   const { items, selected } = select;
@@ -105,7 +119,7 @@ export function SearchSection({ onSubmit, select }: SearchSectionProps) {
             placeholder: "검색어를 입력하여 주세요",
           }}
           formControl={formControl}
-          hints={hintsProps}
+          hints={showHints}
           onSubmit={_onSubmit}
         />
       </div>

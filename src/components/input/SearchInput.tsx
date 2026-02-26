@@ -27,10 +27,6 @@ type Props<T extends FieldValues> = {
   onSubmit: SubmitHandler<T>;
 };
 
-const emptyHint: HintItemProps[] = [
-  { id: "empty", label: "검색 기록이 없습니다." },
-];
-
 export function SearchInput<T extends FieldValues>({
   className = "",
   icon,
@@ -47,15 +43,6 @@ export function SearchInput<T extends FieldValues>({
     size = "30px",
   } = icon || {};
 
-  const inputVal = formControl.watch(input.name);
-  const showHints = useMemo(() => {
-    const _hints = hints?.length ? hints : emptyHint;
-
-    return !inputVal
-      ? _hints
-      : hints?.filter((h) => h.label.includes(inputVal));
-  }, [hints, inputVal]);
-
   const { handleClick, handleClose, anchorEl, popoverControl, setOpen } =
     usePopover({
       id: "detail-search",
@@ -67,7 +54,7 @@ export function SearchInput<T extends FieldValues>({
   );
 
   const searchImgSize = icon?.hidden ? "0" : size;
-  const isOpen = popoverControl.open && !!showHints?.length;
+  const isOpen = popoverControl.open && !!hints?.length;
 
   const popperRef = useRef<HTMLDivElement>(null);
 
@@ -132,7 +119,7 @@ export function SearchInput<T extends FieldValues>({
       >
         {!hideHint && (
           <div ref={popperRef} className="search-input-content-container">
-            {showHints?.map((hint) => (
+            {hints?.map((hint) => (
               <HintItem
                 key={hint.id}
                 {...hint}
