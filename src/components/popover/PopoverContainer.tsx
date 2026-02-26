@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import { usePopover } from "@/components";
 
 type Props = {
@@ -7,7 +7,7 @@ type Props = {
   children?: ReactNode;
   onClose?: ReturnType<typeof usePopover>["handleClose"];
   hideCloseButton?: boolean;
-  typographyProps?: Parameters<typeof Typography>[0];
+  boxProps?: Parameters<typeof Box>[0];
 };
 
 export function PopoverContainer({
@@ -15,12 +15,12 @@ export function PopoverContainer({
   children,
   onClose,
   hideCloseButton,
-  typographyProps,
+  boxProps,
 }: Props) {
   return (
-    <Typography
-      {...typographyProps}
-      className={`popover-container ${className || ""} ${typographyProps?.className || ""}`}
+    <Box
+      {...boxProps}
+      className={`popover-container ${className || ""} ${boxProps?.className || ""}`}
     >
       {!hideCloseButton && (
         <div className="button-container">
@@ -34,6 +34,6 @@ export function PopoverContainer({
       )}
 
       <div className="content-container">{children}</div>
-    </Typography>
+    </Box>
   );
 }

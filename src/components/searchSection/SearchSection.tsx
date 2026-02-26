@@ -129,7 +129,7 @@ export function SearchSection({ onSubmit, select }: SearchSectionProps) {
       <Popover {...popoverControl}>
         <PopoverContainer
           onClose={handleClose}
-          typographyProps={{ sx: { width: 360 } }}
+          boxProps={{ sx: { width: 360 } }}
         >
           <form
             className="detail-search-container"
