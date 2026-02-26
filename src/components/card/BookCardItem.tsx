@@ -88,7 +88,10 @@ export function BookCardItem<T extends FieldValues>({
           <div className="content-body-wrapper">
             <div className="content-body-left">
               <h2>책 소개</h2>
-              <p>{content || "-"}</p>
+
+              <p style={{ whiteSpace: "pre-wrap" }}>
+                {formatContent(content || "-")}
+              </p>
             </div>
             <div className="content-body-right">
               <div className="price-container">
@@ -118,6 +121,10 @@ export function BookCardItem<T extends FieldValues>({
     </div>
   );
 }
+
+const formatContent = (text: string) => {
+  return text.replace(/\. /g, ".\n\n");
+};
 
 // 가격 -1 숨김처리
 // 숨김 조건을 props 로 뺴놓을 수 있으면 좋을텐데 시간 관계상 내부에서 처리
