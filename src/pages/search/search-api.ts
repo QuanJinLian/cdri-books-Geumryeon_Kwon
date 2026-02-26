@@ -14,7 +14,7 @@ const buyOnClick: BookCardItemProps<BE_BookItem>["onClick"] = (data) => {
   window.open(data?.url, "_blank");
 };
 
-function converter(data: BE_BookItem[]) {
+export function converterBooks(data: BE_BookItem[]) {
   return data?.map?.(
     (d, i) =>
       ({
@@ -49,7 +49,7 @@ export const getSearchBooks: UndefinedInitialDataInfiniteOptions<ReturnBookItem>
       },
     });
 
-    data.documents = converter(data.documents);
+    data.documents = converterBooks(data.documents);
     return data;
   };
 

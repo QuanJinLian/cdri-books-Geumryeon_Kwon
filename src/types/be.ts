@@ -2,7 +2,7 @@ import { FieldValues } from "react-hook-form";
 
 type Meta = {
   total_count: number;
-  pageable_count: boolean;
+  pageable_count: number;
   is_end: boolean;
 };
 
