@@ -5,6 +5,7 @@ export type BookImgProps<T extends FieldValues> = {
   imgSrc: string;
   alt: string;
   heart?: {
+    icons: { checked: string; unchecked: string };
     checked: boolean;
     data: T;
     onChange?: (props: {
@@ -21,24 +22,15 @@ export function BookImg<T extends FieldValues>({
   alt,
   heart,
 }: BookImgProps<T>) {
-  const { checked = false, onChange, data } = heart || {};
+  const { checked = false, onChange, data, icons } = heart || {};
 
   return (
     <div className="book-image-container">
-      <img
-        className="book-img"
-        src={imgSrc || "src/assets/image/empty-img.webp"}
-        alt={alt}
-        loading="lazy"
-      />
+      <img className="book-img" src={imgSrc} alt={alt} loading="lazy" />
       {heart && (
         <img
           className="heart-img"
-          src={
-            checked
-              ? "/src/assets/image/like-fill.svg"
-              : "/src/assets/image/like-line.svg"
-          }
+          src={checked ? icons?.checked : icons?.unchecked}
           alt={`heart-${checked ? "checked" : ""}`}
           onClick={() =>
             onChange?.({

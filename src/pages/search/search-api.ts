@@ -23,7 +23,7 @@ export function converterBooks(data: BE_BookItem[]) {
         content: d.contents,
         author: d.authors,
         prices: [d.price, d.sale_price],
-        imgSrc: d.thumbnail,
+        imgSrc: d.thumbnail || "src/assets/image/empty-img.webp",
         onClick: buyOnClick,
         rawData: d,
       }) as BookCardItemProps<BE_BookItem>,
@@ -82,6 +82,10 @@ export const mergeBooksNLikedList = ({
           documents: page?.documents?.map((item) => ({
             ...item,
             heart: {
+              icons: {
+                checked: "/src/assets/image/like-fill.svg",
+                unchecked: "/src/assets/image/like-line.svg",
+              },
               checked: !!likedList?.[item.id],
               onChange: onLikeChange,
               data: item.rawData,

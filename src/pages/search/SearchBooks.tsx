@@ -6,6 +6,7 @@ import {
   SearchSection,
   SelectItem,
   InfiniteScroll,
+  BookImg,
 } from "@/components";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useMemo, useState } from "react";
