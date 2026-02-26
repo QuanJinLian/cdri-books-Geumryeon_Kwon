@@ -1,15 +1,27 @@
-export type BookImgProps = {
+import { FieldValues } from "react-hook-form";
+
+export type BookImgProps<T extends FieldValues> = {
   id: string;
   imgSrc: string;
   alt: string;
   heart?: {
     checked: boolean;
-    onChange?: (id: string, checked: boolean) => void;
+    data: T;
+    onChange?: (props: {
+      data: T | undefined;
+      id: string;
+      checked: boolean;
+    }) => void;
   };
 };
 
-export function BookImg({ id, imgSrc, alt, heart }: BookImgProps) {
-  const { checked = false, onChange } = heart || {};
+export function BookImg<T extends FieldValues>({
+  id,
+  imgSrc,
+  alt,
+  heart,
+}: BookImgProps<T>) {
+  const { checked = false, onChange, data } = heart || {};
 
   return (
     <div className="book-image-container">
@@ -28,7 +40,13 @@ export function BookImg({ id, imgSrc, alt, heart }: BookImgProps) {
               : "/src/assets/image/like-line.svg"
           }
           alt={`heart-${checked ? "checked" : ""}`}
-          onClick={() => onChange?.(id, !checked)}
+          onClick={() =>
+            onChange?.({
+              checked: !checked,
+              id: id,
+              data: data,
+            })
+          }
           loading="lazy"
         />
       )}

@@ -1,6 +1,5 @@
 import {
   BookCard,
-  BookCardItemProps,
   Empty,
   ItemCount,
   SearchFormValues,
@@ -9,16 +8,22 @@ import {
   InfiniteScroll,
 } from "@/components";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useState } from "react";
-import { BE_BookItem, BE_Response } from "@/types";
-import { getNextPageParam, getSearchBooks } from "@/pages/search/search-api";
+import { useMemo, useState } from "react";
+import { BE_BookItem } from "@/types";
+import {
+  getNextPageParam,
+  getSearchBooks,
+  mergeBooksNLikedList,
+  ReturnBookItem,
+} from "@/pages/search/search-api";
+import { useLikedList } from "@/pages/like/useLikedList";
 
 // 도서 검색
 export function SearchBooks() {
   const [values, setValues] = useState<SearchFormValues | undefined>();
 
   const { data, isFetchingNextPage, hasNextPage, fetchNextPage, isFetching } =
-    useInfiniteQuery<BE_Response<BookCardItemProps<BE_BookItem>>>({
+    useInfiniteQuery<ReturnBookItem>({
       queryKey: ["books", values],
       queryFn: getSearchBooks,
       initialPageParam: 1,
@@ -31,6 +36,18 @@ export function SearchBooks() {
   const onSubmit = (values) => {
     setValues(values);
   };
+
+  // 찜한 책과 merge 작업
+  const { likedListObj, onLikeChange } = useLikedList();
+  const showData = useMemo(
+    () =>
+      mergeBooksNLikedList({
+        books: data,
+        likedList: likedListObj,
+        onLikeChange,
+      }),
+    [data, likedListObj],
+  );
 
   return (
     <main className="tab-content-container">
@@ -51,7 +68,9 @@ export function SearchBooks() {
         />
       </div>
       <div className="result-content">
-        {data?.pages.map((page, i) => {
+        {showData?.pages.map((page, i) => {
+          if (!page) return null;
+
           return (
             <BookCard<BE_BookItem>
               key={i}

@@ -14,7 +14,7 @@ export type BookCardItemProps<T extends FieldValues> = {
     isOpen: boolean;
     onChange: (id: string) => void;
   };
-  heart?: NonNullable<BookImgProps>["heart"];
+  heart?: NonNullable<BookImgProps<T>>["heart"];
 };
 
 export function BookCardItem<T extends FieldValues>({
