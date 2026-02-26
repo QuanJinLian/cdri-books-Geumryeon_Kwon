@@ -53,10 +53,14 @@ export function BookCardItem<T extends FieldValues>({
           <ItemCount
             className="book-name-price"
             title={<BookTitle title={title} subTitle={author?.join(", ")} />}
-            count={{
-              number: lastPrice,
-              suffix: "원",
-            }}
+            count={
+              isMinus(lastPrice)
+                ? undefined
+                : {
+                    number: lastPrice,
+                    suffix: "원",
+                  }
+            }
           />
           {/* 구매하기 버튼 */}
           {BuyButton}
@@ -84,21 +88,25 @@ export function BookCardItem<T extends FieldValues>({
           <div className="content-body-wrapper">
             <div className="content-body-left">
               <h2>책 소개</h2>
-              <p>{content}</p>
+              <p>{content || "-"}</p>
             </div>
             <div className="content-body-right">
               <div className="price-container">
-                {prices.map((price, i) => (
-                  <ItemCount
-                    key={`price-${price}-${i}`}
-                    className={`price ${i === prices.length - 1 ? "" : "strikethrough"}`}
-                    count={{
-                      prefix: i === 0 ? "원가" : "할인가",
-                      number: price,
-                      suffix: "원",
-                    }}
-                  />
-                ))}
+                {prices.map((price, i) => {
+                  if (isMinus(price)) return null;
+
+                  return (
+                    <ItemCount
+                      key={`price-${price}-${i}`}
+                      className={`price ${i === prices.length - 1 ? "" : "strikethrough"}`}
+                      count={{
+                        prefix: i === 0 ? "원가" : "할인가",
+                        number: price,
+                        suffix: "원",
+                      }}
+                    />
+                  );
+                })}
               </div>
 
               {/* 구매하기 버튼 */}
@@ -109,4 +117,11 @@ export function BookCardItem<T extends FieldValues>({
       </div>
     </div>
   );
+}
+
+// 가격 -1 숨김처리
+// 숨김 조건을 props 로 뺴놓을 수 있으면 좋을텐데 시간 관계상 내부에서 처리
+
+function isMinus(num: number) {
+  return num < 0;
 }
