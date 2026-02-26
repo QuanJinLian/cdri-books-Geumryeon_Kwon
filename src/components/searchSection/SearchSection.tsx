@@ -45,9 +45,19 @@ export function SearchSection({ onSubmit, select }: SearchSectionProps) {
     limit: 8,
   });
 
+  const { items, selected } = select;
+  const resetDetail = () => {
+    setValue("category", selected || "");
+    setValue("detailSearch", "");
+  };
+  const resetSearch = () => {
+    setValue("search", "");
+  };
+
   const hintItemClick: typeof addHint = (e, data) => {
     // 검색 query 로직
     setValue("search", data.label);
+    resetDetail();
     _onSubmit(getValues());
   };
 
@@ -90,7 +100,6 @@ export function SearchSection({ onSubmit, select }: SearchSectionProps) {
   };
 
   //select
-  const { items, selected } = select;
   useEffect(() => {
     if (!selected) return;
 
@@ -99,14 +108,13 @@ export function SearchSection({ onSubmit, select }: SearchSectionProps) {
 
   // input 끼리 연관 로직
   useEffect(() => {
-    if (search && (detailSearch || category)) {
-      setValue("category", selected || "");
-      setValue("detailSearch", "");
+    if (search && (detailSearch || category !== selected)) {
+      resetDetail();
     }
   }, [search]);
   useEffect(() => {
-    if (search && (detailSearch || category)) {
-      setValue("search", "");
+    if (search && (detailSearch || category !== selected)) {
+      resetSearch();
     }
   }, [detailSearch, category]);
 
